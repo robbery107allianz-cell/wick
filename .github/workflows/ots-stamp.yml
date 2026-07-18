@@ -6,6 +6,9 @@ on:
       - 'snapshots/**/*.html'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   stamp:
     runs-on: ubuntu-latest
