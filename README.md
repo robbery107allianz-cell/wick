@@ -28,18 +28,18 @@
 
 sitesmith（`~/Cases/sitesmith/`）是一整套"公司官网"生成器——营销页、博客、RAG 客服、多语言，配置模型围着"品牌/服务/联系方式"设计。Wick 只需要把一批带时间戳的记录渲染成一个列表页，用 sitesmith 相当于为了展示几十行数据去配置一整个租户网站，方向不对。改用 `scripts/generate-index.mjs`，一个不到 100 行的零依赖生成器，直接对应需求。
 
-## 手动设置步骤（账号相关，代码没有替你做）
+## 现状
 
-1. 创建这个数据仓库（public）：
-   ```bash
-   cd ~/Projects/wick
-   gh repo create <owner>/wick --public --source=. --push
-   ```
-2. 仓库 Settings → Pages：Source 选 `Deploy from a branch`，分支 `main`，目录 `/docs`。
-3. 创建 Fine-grained PAT（GitHub Settings → Developer settings → Fine-grained tokens）：
-   - Repository access：只勾选 `wick` 这一个仓库
-   - Permissions：Contents → Read and write，其余都不给
-4. 装浏览器插件、填 PAT/owner/repo 的步骤在姊妹仓库 [`wick-extension`](../wick-extension) 的 README 里——插件配置里的 `repo` 填 `wick`（这里），不是 `wick-extension`。
+- 仓库：https://github.com/robbery107allianz-cell/wick （public）
+- 公开索引页：https://robbery107allianz-cell.github.io/wick/ （Pages 已开，首次构建可能要等几分钟）
+
+## 还差你手动做一步
+
+创建 Fine-grained PAT（GitHub Settings → Developer settings → Fine-grained tokens）：
+- Repository access：只勾选 `wick` 这一个仓库
+- Permissions：Contents → Read and write，其余都不给
+
+装浏览器插件、填 PAT/owner/repo 的步骤在姊妹仓库 [`wick-extension`](https://github.com/robbery107allianz-cell/wick-extension) 的 README 里——插件配置里的 `repo` 填 `wick`（这里），不是 `wick-extension`。
 
 ## 已知限制（v0.1，如实说）
 
