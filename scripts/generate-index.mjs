@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-// Zero-dependency static index generator: snapshots/**/*.json -> docs/index.html
+// Zero-dependency static index generator: docs/snapshots/**/*.json -> docs/index.html
+// Snapshots live inside docs/ because that's the only folder GitHub Pages serves.
 // Run: node scripts/generate-index.mjs
 
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 
 const ROOT = new URL('..', import.meta.url).pathname;
-const SNAPSHOTS_DIR = join(ROOT, 'snapshots');
 const DOCS_DIR = join(ROOT, 'docs');
+const SNAPSHOTS_DIR = join(DOCS_DIR, 'snapshots');
 
 async function findMetaFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true }).catch(() => []);
@@ -43,8 +44,8 @@ async function main() {
     const hasProof = await fileExists(`${base}.html.ots`);
     records.push({
       ...meta,
-      htmlPath: relative(ROOT, `${base}.html`),
-      proofPath: hasProof ? relative(ROOT, `${base}.html.ots`) : null,
+      htmlPath: relative(DOCS_DIR, `${base}.html`),
+      proofPath: hasProof ? relative(DOCS_DIR, `${base}.html.ots`) : null,
     });
   }
   records.sort((a, b) => (a.capturedAt < b.capturedAt ? 1 : -1));
@@ -54,11 +55,11 @@ async function main() {
       (r) => `
     <li class="record">
       <div class="ts">${escapeHtml(r.capturedAt)}</div>
-      <a class="title" href="../${r.htmlPath}">${escapeHtml(r.title || r.url)}</a>
+      <a class="title" href="${r.htmlPath}">${escapeHtml(r.title || r.url)}</a>
       <div class="url">${escapeHtml(r.url)}</div>
       ${r.note ? `<div class="note">${escapeHtml(r.note)}</div>` : ''}
       <div class="meta">sha256: <code>${escapeHtml(r.sha256.slice(0, 12))}…</code>
-        ${r.proofPath ? `· <a href="../${r.proofPath}">时间戳证明</a>` : '· 时间戳证明生成中'}
+        ${r.proofPath ? `· <a href="${r.proofPath}">时间戳证明</a>` : '· 时间戳证明生成中'}
       </div>
     </li>`
     )

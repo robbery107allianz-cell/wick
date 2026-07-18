@@ -21,7 +21,7 @@ jobs:
           node-version: '20'
       - run: pip install opentimestamps-client
       - name: Upgrade pending proofs
-        run: find snapshots -name '*.ots' -exec ots upgrade {} \;
+        run: find docs/snapshots -name '*.ots' -exec ots upgrade {} \;
       - name: Regenerate index
         # same anti-recursion reason as ots-stamp.yml: a proof going from
         # pending to complete never reaches the public page otherwise
@@ -30,7 +30,7 @@ jobs:
         run: |
           git config user.name "wick-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A 'snapshots/**/*.ots' docs/index.html
+          git add -A 'docs/snapshots/**/*.ots' docs/index.html
           git diff --cached --quiet || git commit -m "ots: upgrade pending proofs"
           git pull --rebase origin main
           git push

@@ -20,7 +20,7 @@
 | `.github/workflows/ots-upgrade.yml` | 每 6 小时跑一次 `ots upgrade`，把待确认证明补全成完整证明 |
 | `.github/workflows/build-pages.yml` | 重新生成 `docs/index.html`；GitHub Pages 从 `main` 分支 `/docs` 目录发布 |
 | `scripts/generate-index.mjs` | 零依赖索引页生成器 |
-| `snapshots/` | 快照账本：`<host>/<timestamp>-<slug>.html` + 同名 `.json` 元数据 + `.html.ots` 证明 |
+| `docs/snapshots/` | 快照账本：`<host>/<timestamp>-<slug>.html` + 同名 `.json` 元数据 + `.html.ots` 证明。放在 `docs/` 下面而不是仓库根目录，是因为 GitHub Pages 只发布 `docs/`，放外面等于没公开 |
 
 一条索引记录 = 一个 commit，git log 本身就是账本，没有另建数据库。
 

@@ -3,7 +3,7 @@ name: Build Pages
 on:
   push:
     paths:
-      - 'snapshots/**'
+      - 'docs/snapshots/**'
       - 'scripts/generate-index.mjs'
   workflow_dispatch:
 
