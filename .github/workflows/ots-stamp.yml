@@ -1,0 +1,30 @@
+name: OTS Stamp
+
+on:
+  push:
+    paths:
+      - 'snapshots/**/*.html'
+  workflow_dispatch:
+
+jobs:
+  stamp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install opentimestamps-client
+      - name: Stamp snapshots missing a proof
+        run: |
+          set -e
+          find snapshots -name '*.html' | while read -r f; do
+            [ -f "$f.ots" ] || ots stamp "$f"
+          done
+      - name: Commit new proofs
+        run: |
+          git config user.name "wick-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A 'snapshots/**/*.ots'
+          git diff --cached --quiet || git commit -m "ots: stamp new snapshots"
+          git push
